@@ -1,0 +1,37 @@
+[
+    {
+        "title": "SQL vs NoSQL Comparison",
+        "topic": "Databases",
+        "content": "SQL databases are relational, use structured schema and SQL for queries. They scale vertically. NoSQL databases are non-relational, have dynamic schemas, and scale horizontally better. SQL is better for complex queries while NoSQL is better for large unstructured data."
+    },
+    {
+        "title": "Scaling SQL vs NoSQL",
+        "topic": "Databases",
+        "content": "SQL databases typically scale better vertically by increasing server hardware. NoSQL databases scale better horizontally by adding more servers to a cluster. Some say NoSQL is better for massive scaling, but SQL provides better ACID compliance."
+    },
+    {
+        "title": "REST API Fundamentals",
+        "topic": "APIs",
+        "content": "REST is an architectural style for providing standards between computer systems on the web. It is stateless and uses standard HTTP methods like GET, POST, PUT, DELETE. It is easy to cache but can suffer from over-fetching or under-fetching."
+    },
+    {
+        "title": "GraphQL Benefits",
+        "topic": "APIs",
+        "content": "GraphQL is a query language for APIs. It allows clients to request exactly the data they need and nothing more. This solves over-fetching. It uses a single endpoint and is strongly typed. However, it can make caching more complex compared to REST."
+    },
+    {
+        "title": "Microservices vs Monolithic",
+        "topic": "Architecture",
+        "content": "Monolithic architecture builds an app as a single unit or codebase. It is simpler to develop and deploy initially. Microservices break the app into small independent services. Microservices offer better scalability and fault isolation but increase complexity."
+    },
+    {
+        "title": "SSR vs CSR in Next.js",
+        "topic": "Frontend",
+        "content": "Server-Side Rendering (SSR) renders pages on the server for every request. It provides better SEO and faster initial load. Client-Side Rendering (CSR) renders pages in the browser. CSR provides faster transitions and less server load after the initial bundle is downloaded."
+    },
+    {
+        "title": "WebSockets for Real-time",
+        "topic": "Communication",
+        "content": "WebSockets provide full-duplex communication over a single TCP connection. They are excellent for real-time apps like chats or dashboards. HTTP Polling is simpler but involves overhead of multiple requests to check for new data."
+    }
+]
