@@ -34,6 +34,7 @@ import {
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import ContextManager from '../components/ContextManager';
+import ResearchPipeline from '../components/ResearchPipeline';
 
 interface TraceStep {
   node: string;
@@ -195,6 +196,14 @@ export default function Home() {
           </Button>
         </Paper>
 
+        {/* Pipeline Interface */}
+        <Box sx={{ maxWidth: 900, mx: 'auto', mb: 6 }}>
+          <ResearchPipeline
+            activeNodes={result?.trace.map(t => t.node) || []}
+            isStreamActive={loading}
+          />
+        </Box>
+
         {error && (
           <Fade in={!!error}>
             <Box sx={{ maxWidth: 700, mx: 'auto', mb: 6 }}>
@@ -222,175 +231,77 @@ export default function Home() {
         )}
 
         {/* Main Interface */}
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, lg: 8 }}>
-            <AnimatePresence mode="wait">
-              {loading ? (
-                <motion.div
-                  key="loading"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <Paper sx={{ p: 10, textAlign: 'center', bgcolor: 'transparent', minHeight: 400, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <Box sx={{ position: 'relative', mb: 4 }}>
-                      <CircularProgress size={80} thickness={2} sx={{ color: 'primary.main' }} />
-                      <AutoAwesome sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'primary.main', fontSize: 32 }} />
-                    </Box>
-                    <Typography variant="h5" sx={{ mb: 1, fontWeight: 700 }}>Kernel Initializing</Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>Spawning specialized agents for data aggregation...</Typography>
-                  </Paper>
-                </motion.div>
-              ) : result ? (
-                <motion.div
-                  key="result"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                >
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      overflow: 'hidden',
-                      boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
-                      border: '1px solid rgba(56, 189, 248, 0.2)',
-                      background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%)',
-                      backdropFilter: 'blur(10px)'
-                    }}
-                  >
-                    <Box sx={{ px: 4, py: 3, bgcolor: 'rgba(255, 255, 255, 0.03)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <FactCheck sx={{ color: 'success.main' }} />
-                        <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Consolidated Intelligence</Typography>
-                      </Box>
-                      <Chip
-                        label={`ID: ${result.queryId.slice(0, 8)}`}
-                        size="small"
-                        sx={{
-                          bgcolor: 'rgba(56, 189, 248, 0.1)',
-                          color: 'primary.main',
-                          fontFamily: 'monospace',
-                          fontSize: '0.7rem',
-                          border: '1px solid rgba(56, 189, 248, 0.3)'
-                        }}
-                      />
-                    </Box>
-                    <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
-                    <Box sx={{ p: 5 }}>
-                      <Box sx={{ '& p': { mb: 3, lineHeight: 1.8, fontSize: '1.1rem', color: 'text.secondary' } }}>
-                        {result.answer.split('\n').filter(l => l.trim()).map((p, i) => (
-                          <Typography key={i} paragraph>{p}</Typography>
-                        ))}
-                      </Box>
-                    </Box>
-                  </Paper>
-                </motion.div>
-              ) : (
-                <Box sx={{ height: 300, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: 0.2, border: '2px dashed #334155', borderRadius: 8 }}>
-                  <History sx={{ fontSize: 64, mb: 2 }} />
-                  <Typography>Awaiting kernel objective</Typography>
-                </Box>
-              )}
-            </AnimatePresence>
-          </Grid>
-
-          <Grid size={{ xs: 12, lg: 4 }}>
-            <Paper
-              elevation={0}
-              sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                maxHeight: '70vh',
-                border: '1px solid rgba(129, 140, 248, 0.2)',
-                background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%)',
-                backdropFilter: 'blur(10px)'
-              }}
-            >
-              <Box sx={{ px: 3, py: 2, bgcolor: 'rgba(255, 255, 255, 0.03)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Timeline sx={{ fontSize: 20, color: 'secondary.main' }} />
-                <Typography variant="overline" sx={{ fontWeight: 800, letterSpacing: 2, pt: 0.3 }}>Execution Trace</Typography>
-              </Box>
-              <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
-              <Box sx={{ flex: 1, overflowY: 'auto', p: 3 }}>
-                {!result && !loading && (
-                  <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: 0.3 }}>
-                    <Terminal sx={{ fontSize: 40, mb: 1 }} />
-                    <Typography variant="caption" sx={{ fontWeight: 700 }}>No active trace data</Typography>
+        <Box sx={{ width: '100%' }}>
+          <AnimatePresence mode="wait">
+            {loading ? (
+              <motion.div
+                key="loading"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Paper sx={{ p: 10, textAlign: 'center', bgcolor: 'transparent', minHeight: 400, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                  <Box sx={{ position: 'relative', mb: 4 }}>
+                    <CircularProgress size={80} thickness={2} sx={{ color: 'primary.main' }} />
+                    <AutoAwesome sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'primary.main', fontSize: 32 }} />
                   </Box>
-                )}
-
-                {loading && (
-                  <Box sx={{ py: 2 }}>
-                    {[1, 2, 3].map(i => (
-                      <Box key={i} sx={{ mb: 4, opacity: 0.5 }}>
-                        <Box sx={{ height: 10, width: '40%', bgcolor: 'rgba(255,255,255,0.05)', borderRadius: 1, mb: 1.5 }} />
-                        <Box sx={{ height: 8, width: '90%', bgcolor: 'rgba(255,255,255,0.03)', borderRadius: 1, mb: 0.5 }} />
-                        <Box sx={{ height: 8, width: '70%', bgcolor: 'rgba(255,255,255,0.03)', borderRadius: 1 }} />
-                      </Box>
-                    ))}
+                  <Typography variant="h5" sx={{ mb: 1, fontWeight: 700 }}>Kernel Initializing</Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>Spawning specialized agents for data aggregation...</Typography>
+                </Paper>
+              </motion.div>
+            ) : result ? (
+              <motion.div
+                key="result"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <Paper
+                  elevation={0}
+                  sx={{
+                    overflow: 'hidden',
+                    boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                    border: '1px solid rgba(56, 189, 248, 0.2)',
+                    background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%)',
+                    backdropFilter: 'blur(10px)',
+                    maxWidth: 900,
+                    mx: 'auto'
+                  }}
+                >
+                  <Box sx={{ px: 4, py: 3, bgcolor: 'rgba(255, 255, 255, 0.03)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <FactCheck sx={{ color: 'success.main' }} />
+                      <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>Consolidated Intelligence</Typography>
+                    </Box>
+                    <Chip
+                      label={`ID: ${result.queryId.slice(0, 8)}`}
+                      size="small"
+                      sx={{
+                        bgcolor: 'rgba(56, 189, 248, 0.1)',
+                        color: 'primary.main',
+                        fontFamily: 'monospace',
+                        fontSize: '0.7rem',
+                        border: '1px solid rgba(56, 189, 248, 0.3)'
+                      }}
+                    />
                   </Box>
-                )}
-
-                {result && (
-                  <List disablePadding>
-                    {result.trace.map((step, i) => (
-                      <ListItem
-                        key={i}
-                        disablePadding
-                        sx={{
-                          mb: 3,
-                          alignItems: 'flex-start',
-                          borderLeft: '2px solid rgba(129, 140, 248, 0.3)',
-                          pl: 2.5,
-                          transition: 'all 0.2s ease',
-                          '&:hover': {
-                            borderLeftColor: 'secondary.main',
-                            transform: 'translateX(4px)'
-                          }
-                        }}
-                      >
-                        <Box sx={{ width: '100%' }}>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              {getNodeIcon(step.node)}
-                              <Typography variant="caption" sx={{ fontWeight: 900, textTransform: 'uppercase', color: 'secondary.main', fontSize: '0.65rem' }}>
-                                {step.node}
-                              </Typography>
-                            </Box>
-                            <Tooltip title={new Date(step.timestamp).toLocaleString()} arrow>
-                              <Typography variant="caption" sx={{ fontSize: '0.6rem', opacity: 0.4, cursor: 'help' }}>
-                                {new Date(step.timestamp).toLocaleTimeString([], { hour12: false })}
-                              </Typography>
-                            </Tooltip>
-                          </Box>
-                          <Paper
-                            elevation={0}
-                            sx={{
-                              p: 1.5,
-                              bgcolor: 'rgba(0,0,0,0.3)',
-                              border: '1px solid rgba(255, 255, 255, 0.05)',
-                              transition: 'all 0.2s ease',
-                              '&:hover': {
-                                bgcolor: 'rgba(0,0,0,0.4)',
-                                borderColor: 'rgba(129, 140, 248, 0.2)'
-                              }
-                            }}
-                          >
-                            <Typography sx={{ fontFamily: 'monospace', fontSize: '0.7rem', color: 'text.secondary', wordBreak: 'break-all' }}>
-                              {typeof step.output === 'string'
-                                ? step.output
-                                : JSON.stringify(step.output, null, 2)}
-                            </Typography>
-                          </Paper>
-                        </Box>
-                      </ListItem>
-                    ))}
-                  </List>
-                )}
+                  <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
+                  <Box sx={{ p: 5 }}>
+                    <Box sx={{ '& p': { mb: 3, lineHeight: 1.8, fontSize: '1.1rem', color: 'text.secondary' } }}>
+                      {result.answer.split('\n').filter(l => l.trim()).map((p, i) => (
+                        <Typography key={i} paragraph>{p}</Typography>
+                      ))}
+                    </Box>
+                  </Box>
+                </Paper>
+              </motion.div>
+            ) : (
+              <Box sx={{ height: 300, maxWidth: 900, mx: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', opacity: 0.2, border: '2px dashed #334155', borderRadius: 8 }}>
+                <History sx={{ fontSize: 64, mb: 2 }} />
+                <Typography>Awaiting kernel objective</Typography>
               </Box>
-            </Paper>
-          </Grid>
-        </Grid>
+            )}
+          </AnimatePresence>
+        </Box>
 
         {/* Footer */}
         <Box sx={{ mt: 12, textAlign: 'center', opacity: 0.6 }}>
