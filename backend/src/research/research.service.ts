@@ -42,7 +42,7 @@ export class ResearchService {
             model: process.env.OPENROUTER_MODEL || 'google/gemini-3-flash-preview',
             maxTokens: 1000, // Limit tokens to avoid credit errors on OpenRouter
             configuration: {
-                baseURL: 'https://openrouter.ai/api/v1',
+                baseURL: process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1',
             },
         });
     }

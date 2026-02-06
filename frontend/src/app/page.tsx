@@ -60,7 +60,8 @@ export default function Home() {
 
     try {
       // Use EventSource for real-time streaming
-      const url = `http://localhost:3001/research/ask-live?question=${encodeURIComponent(question)}`;
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const url = `${baseUrl}/research/ask-live?question=${encodeURIComponent(question)}`;
       const eventSource = new EventSource(url);
 
       eventSource.onmessage = (event) => {
