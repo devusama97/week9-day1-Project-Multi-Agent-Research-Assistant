@@ -91,7 +91,7 @@ export default function Home() {
       };
 
     } catch (err) {
-      setError('Connection failed. Please check if the backend is running on port 3001.');
+      setError('Connection failed. Please check if the backend is running.');
       console.error(err);
       setLoading(false);
     }
@@ -108,10 +108,10 @@ export default function Home() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', pb: 8, pt: 8 }}>
+    <Box sx={{ minHeight: '100vh', pb: { xs: 4, md: 8 }, pt: { xs: 4, md: 8 } }}>
       <Container maxWidth="lg">
         {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: 10 }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 10 } }}>
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -133,16 +133,17 @@ export default function Home() {
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: '3rem', md: '5rem' },
+                fontSize: { xs: '2.5rem', sm: '3.5rem', md: '5rem' },
                 mb: 2,
                 background: 'linear-gradient(to bottom, #fff, #94a3b8)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                lineHeight: 1.1
               }}
             >
               Agentic<Box component="span" sx={{ color: 'primary.main' }}>.</Box>Research
             </Typography>
-            <Typography variant="h6" sx={{ color: 'text.secondary', fontWeight: 400, maxWidth: 600, mx: 'auto' }}>
+            <Typography variant="h6" sx={{ color: 'text.secondary', fontWeight: 400, maxWidth: 600, mx: 'auto', px: 2, fontSize: { xs: '1rem', md: '1.25rem' } }}>
               Deploy a specialized team of AI agents to decompose, search, and synthesize complex research queries in seconds.
             </Typography>
           </motion.div>
@@ -152,15 +153,17 @@ export default function Home() {
         <Paper
           elevation={0}
           sx={{
-            p: 1.5,
-            mb: 10,
+            p: 1,
+            mb: { xs: 6, md: 10 },
             maxWidth: 700,
             mx: 'auto',
             bgcolor: 'rgba(30, 41, 59, 0.4)',
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
             alignItems: 'center',
+            gap: { xs: 1.5, sm: 0 },
             '&:hover': {
               borderColor: 'primary.main',
               boxShadow: '0 0 20px rgba(56, 189, 248, 0.1)',
@@ -177,7 +180,7 @@ export default function Home() {
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             InputProps={{
               disableUnderline: true,
-              sx: { px: 2, py: 1, fontSize: '1.2rem' }
+              sx: { px: 2, py: { xs: 1.5, sm: 1 }, fontSize: { xs: '1rem', md: '1.2rem' } }
             }}
           />
           <Button
@@ -187,7 +190,8 @@ export default function Home() {
             disabled={loading}
             sx={{
               height: 56,
-              minWidth: 140,
+              width: { xs: '100%', sm: 140 },
+              minWidth: { xs: '100%', sm: 140 },
               bgcolor: 'primary.main',
               '&:hover': { bgcolor: 'primary.dark' }
             }}
@@ -286,10 +290,10 @@ export default function Home() {
                     />
                   </Box>
                   <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.05)' }} />
-                  <Box sx={{ p: 5 }}>
-                    <Box sx={{ '& p': { mb: 3, lineHeight: 1.8, fontSize: '1.1rem', color: 'text.secondary' } }}>
+                  <Box sx={{ p: { xs: 2.5, sm: 5 } }}>
+                    <Box sx={{ '& p': { mb: 3, lineHeight: 1.8, fontSize: { xs: '1rem', md: '1.1rem' }, color: 'text.secondary' } }}>
                       {result.answer.split('\n').filter(l => l.trim()).map((p, i) => (
-                        <Typography key={i} paragraph>{p}</Typography>
+                        <Typography key={i} paragraph sx={{ mb: 2 }}>{p}</Typography>
                       ))}
                     </Box>
                   </Box>

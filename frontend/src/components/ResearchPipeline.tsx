@@ -38,7 +38,7 @@ export default function ResearchPipeline({ activeNodes, isStreamActive }: Resear
         <Box
             sx={{
                 width: '100%',
-                p: 3,
+                p: { xs: 2, sm: 3 },
                 bgcolor: 'rgba(15, 23, 42, 0.6)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 255, 255, 0.05)',
@@ -49,7 +49,12 @@ export default function ResearchPipeline({ activeNodes, isStreamActive }: Resear
             }}
         >
             {/* Header Area */}
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 6 }}>
+            <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems={{ xs: 'flex-start', sm: 'center' }}
+                sx={{ mb: { xs: 4, sm: 6 }, gap: 2 }}
+            >
                 <Stack direction="row" spacing={1.5} alignItems="center">
                     <Box
                         sx={{
@@ -70,7 +75,7 @@ export default function ResearchPipeline({ activeNodes, isStreamActive }: Resear
                             fontWeight: 700,
                             letterSpacing: '0.15em',
                             color: 'text.secondary',
-                            fontSize: '0.7rem'
+                            fontSize: { xs: '0.6rem', sm: '0.7rem' }
                         }}
                     >
                         NEURAL RESEARCH PIPELINE
@@ -109,30 +114,49 @@ export default function ResearchPipeline({ activeNodes, isStreamActive }: Resear
             </Stack>
 
             {/* Progress Line and Steps */}
-            <Box sx={{ position: 'relative', px: 2 }}>
+            <Box sx={{ position: 'relative', px: { xs: 0, sm: 2 } }}>
                 {/* Background Line */}
                 <Box
                     sx={{
                         position: 'absolute',
-                        top: 12,
-                        left: '4%',
-                        right: '4%',
-                        height: '1px',
+                        top: { xs: 0, sm: 12 },
+                        left: { xs: 12, sm: '4%' },
+                        right: { xs: 'auto', sm: '4%' },
+                        bottom: { xs: 0, sm: 'auto' },
+                        width: { xs: '1px', sm: 'auto' },
+                        height: { xs: '100%', sm: '1px' },
                         bgcolor: 'rgba(255, 255, 255, 0.05)',
                         zIndex: 0
                     }}
                 />
 
-                <Stack direction="row" justifyContent="space-between" sx={{ position: 'relative', zIndex: 1 }}>
+                <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    justifyContent="space-between"
+                    sx={{
+                        position: 'relative',
+                        zIndex: 1,
+                        gap: { xs: 3, sm: 0 },
+                        alignItems: { xs: 'flex-start', sm: 'center' }
+                    }}
+                >
                     {steps.map((step, index) => {
                         const isCompleted = index < currentStepIndex;
                         const isActive = index === currentStepIndex;
-                        const isPending = index > currentStepIndex;
 
                         return (
-                            <Stack key={step.id} spacing={2} alignItems="center" sx={{ width: 80 }}>
+                            <Stack
+                                key={step.id}
+                                spacing={2}
+                                direction={{ xs: 'row', sm: 'column' }}
+                                alignItems="center"
+                                sx={{
+                                    width: { xs: '100%', sm: 80 },
+                                    textAlign: { xs: 'left', sm: 'center' }
+                                }}
+                            >
                                 {/* Step Indicator */}
-                                <Box sx={{ position: 'relative', width: 24, height: 24 }}>
+                                <Box sx={{ position: 'relative', width: 24, height: 24, flexShrink: 0 }}>
                                     <AnimatePresence>
                                         {(isActive || isCompleted) && (
                                             <motion.div
@@ -200,7 +224,6 @@ export default function ResearchPipeline({ activeNodes, isStreamActive }: Resear
                                         fontWeight: 800,
                                         color: isActive || isCompleted ? '#fff' : 'text.disabled',
                                         letterSpacing: '0.05em',
-                                        textAlign: 'center',
                                         transition: 'all 0.3s ease'
                                     }}
                                 >

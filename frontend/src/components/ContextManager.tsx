@@ -73,7 +73,8 @@ export default function ContextManager() {
         }
         setLoading(true);
         try {
-            await axios.post('http://localhost:3001/research/upload', [manualForm]);
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            await axios.post(`${baseUrl}/research/upload`, [manualForm]);
             setSnackbar({ open: true, message: 'Document added successfully!', severity: 'success' });
             setManualForm({ title: '', topic: '', content: '' });
         } catch (err) {
@@ -95,7 +96,8 @@ export default function ContextManager() {
         formData.append('topic', pdfMeta.topic || 'General');
 
         try {
-            await axios.post('http://localhost:3001/research/upload-pdf', formData, {
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            await axios.post(`${baseUrl}/research/upload-pdf`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             setSnackbar({ open: true, message: 'PDF processed and added!', severity: 'success' });
